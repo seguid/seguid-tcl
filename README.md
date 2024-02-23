@@ -35,3 +35,14 @@ $ seguid <<< "TAAAATT"
 input:TAAAATT
 ldseguid=FpPo_uNuqlitTaXv6VEhjkndhE4
 ```
+
+
+## Requirements
+
+This Tcl implementation of SEGUID requires:
+
+* [tclsh]
+
+
+[tclsh]: https://wiki.tcl-lang.org/page/tclsh
+

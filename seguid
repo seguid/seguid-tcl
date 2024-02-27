@@ -409,6 +409,29 @@ foreach arg $argv {
   if {$arg == "--version"} {
     sputs $version
     exit 0    
+  } elseif {$arg == "--help"} {
+    puts "seguid: Sequence Globally Unique Identifier (SEGUID) Checksums for Linear, Circular, Single-Stranded and Double-Stranded Biological Sequences"
+    puts ""
+    puts "Usage:"
+    puts " seguid \[options\] <<< '<sequence>'"
+    puts ""
+    puts "Options:"
+    puts " --help            Display the full help page with examples"
+    puts " --version         Output version of this software"
+    puts ""
+    puts "Examples:"
+    puts "seguid --version"
+    puts "seguid --help"
+    puts ""
+    puts "echo 'ACGT' | seguid --type=lsseguid"
+    puts "seguid --type=lsseguid <<< 'ACGT'"
+    puts "seguid --type=cdseguid <<< $'ACGT\\nTGCA' # two-line syntax"
+    puts "seguid --type=ldseguid <<< 'ACGT;ACGT'    # watson-crick syntax"
+    puts "seguid --type=ldseguid <<< $'-CGT\\nTGCA' # two-line syntax"
+    puts "seguid --type=ldseguid <<< '-CGT;ACGT'    # watson-crick syntax"
+    puts ""
+    puts "Version: $version"
+    exit 0
   } else {
     regexp -- {-type=(lds|cds|lss|css)eguid} $arg -- mode
   }

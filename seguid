@@ -2,6 +2,7 @@
 # the next line restarts using tclsh \
 exec tclsh "$0" "$@"
 
+set version "0.0.1"
 
 ##################
 ## Find ldseguid for linear or cdseguid for circular
@@ -402,7 +403,17 @@ proc sputs {args} {
 ##################
 
 set mode "lds"
-regexp -- {-type=(lds|cds|lss|css)eguid} $argv -- mode
+
+## Parse command-line arguments
+foreach arg $argv {
+  if {$arg == "--version"} {
+    sputs $version
+    exit 0    
+  } else {
+    regexp -- {-type=(lds|cds|lss|css)eguid} $arg -- mode
+  }
+}
+
 set text ""
 while {[gets stdin line] >= 0} {
     append text $line\n

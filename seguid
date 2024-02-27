@@ -457,13 +457,14 @@ while {[gets stdin line] >= 0} {
 if {[regexp {[^GATCRYWSMKHBVDNgatcrywsmkhbvdn]} $text]} {
   if {[regexp {^LOCUS.*ORIGIN\n([0-9,GATCRYWSMKHBVDNgatcrywsmkhbvdn\n\s]+)} $text -- text]} {
   } elseif {[regexp {^>[^\n]+\n([GATCRYWSMKHBVDNgatcrywsmkhbvdn\n]+)} $text -- text]} {
-  } elseif {[regexp {([GATCRYWSMKHBVDNgatcrywsmkhbvdn]+)\n([GATCRYWSMKHBVDNgatcrywsmkhbvdn]+)} $text -- top bottom]} {
-    if {$top eq [com $bottom]} {
-      set text $top
-    } else {
-      set text "$top$bottom"
-    }
-  regsub -all {[^GATCRYWSMKHBVDNgatcrywsmkhbvdn]} $text "" text
+  } elseif {[regexp {([GATCRYWSMKHBVDNgatcrywsmkhbvdn]+)\n([GATCRYWSMKHBVDNgatcrywsmkhbvdn]+)} $text -- watson crick]} {
+    set crick [string rev $crick]
+    set text "$crick;$watson"
+  } elseif {[regexp {([GATCRYWSMKHBVDNgatcrywsmkhbvdn]+);([GATCRYWSMKHBVDNgatcrywsmkhbvdn]+)} $text -- watson crick]} {
+    set text "$crick;$watson"
+  } else {
+    regsub -all {[^GATCRYWSMKHBVDNgatcrywsmkhbvdn]} $text "" text
+  }
 }
 
 sputs [calculate_seguid $text $mode]

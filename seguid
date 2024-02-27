@@ -418,6 +418,14 @@ foreach arg $argv {
     puts "Options:"
     puts " --help            Display the full help page with examples"
     puts " --version         Output version of this software"
+    puts " --alphabet=<SET>  Set of symbols for the input sequence."
+    puts ""
+    puts "Predefined alphabets:"
+    puts " '{DNA}'           Complementary DNA symbols (= 'AT,CG')"
+    puts " '{IUPAC}'         Ambigous DNA (= '{DNA},BV,DH,KM,SS,RY,WW,NN')"
+    puts " '{RNA}'           Complementary RNA symbols (= 'AU,CG')"
+    puts " '{protein}'       Amino-acid symbols (= 'A,C,D,E,F,G,H,I,K,L,M,N,P,Q,R,S,"
+    puts "                   T,V,W,Y')"
     puts ""
     puts "Examples:"
     puts "seguid --version"
@@ -432,8 +440,13 @@ foreach arg $argv {
     puts ""
     puts "Version: $version"
     exit 0
-  } else {
+  } elseif { [string match "--type=*" $arg] } {
     regexp -- {-type=(lds|cds|lss|css)eguid} $arg -- mode
+  } elseif { [string match "--alphabet=*" $arg] } {
+    error "Command-line option --alphabet=<SET> is not yet implemented: $arg"
+  } elseif { [string match "--form=*" $arg] } {
+    error "Command-line option --form=<FORM> is not yet implemented: $arg"
+  } else {
   }
 }
 

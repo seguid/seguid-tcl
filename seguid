@@ -420,10 +420,4 @@ if {[regexp {[^GATCRYWSMKHBVDNgatcrywsmkhbvdn]} $text]} {
   regsub -all {[^GATCRYWSMKHBVDNgatcrywsmkhbvdn]} $text "" text
 }
 set text [string toupper $text]
-sputs input:$text
 sputs [calculate_seguid $text $mode]
-
-
-
-
-

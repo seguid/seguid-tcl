@@ -1,3 +1,5 @@
+[![CLI-check](https://github.com/seguid/seguid-tcl/actions/workflows/check-cli.yml/badge.svg)](https://github.com/seguid/seguid-tcl/actions/workflows/check-cli.yml)
+
 # SEGUID v2: Checksums for Linear, Circular, Single- and Double-Stranded Biological Sequences
 
 This is a Tcl implementation of SEGUID v2 together with the original
@@ -45,4 +47,3 @@ This Tcl implementation of SEGUID requires:
 
 
 [tclsh]: https://wiki.tcl-lang.org/page/tclsh
-

@@ -1,0 +1,43 @@
+on: [push, pull_request]
+
+name: CLI-check
+
+jobs:
+  CLI-check:
+    if: "! contains(github.event.head_commit.message, '[ci skip]')"    
+
+    timeout-minutes: 15
+
+    runs-on: ${{ matrix.config.os }}
+
+    name: ${{ matrix.config.os }}
+
+    strategy:
+      fail-fast: false
+      
+      matrix:
+        config:
+#          - {os: macOS-latest  }
+          - {os: ubuntu-latest }
+
+     steps:
+      - uses: actions/checkout@v4
+
+      - name: Install system dependencies (Linux)
+        if: runner.os == 'Linux'
+        run: sudo apt-get install -y tcl
+
+      - name: Session info
+        run: |
+          tclsh <<< "puts [info patchlevel]"
+
+      - name: Check CLI
+        if: runner.os != 'Windows'
+        run: make check-cli
+
+      - name: Upload check results
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ runner.os }}-results
+          path: check

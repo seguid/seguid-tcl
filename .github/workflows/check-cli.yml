@@ -20,7 +20,7 @@ jobs:
 #          - {os: macOS-latest  }
           - {os: ubuntu-latest }
 
-     steps:
+    steps:
       - uses: actions/checkout@v4
 
       - name: Install system dependencies (Linux)

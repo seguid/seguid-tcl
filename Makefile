@@ -15,6 +15,6 @@ seguid-tests:
 	cd "$@" && git pull origin main
 
 check-cli: seguid-tests
-	$(MAKE) -C seguid-tests check-cli CLI_CALL="$(CURDIR)/seguid"
+	$(MAKE) -C seguid-tests check-cli CLI_CALL="tclsh $(CURDIR)/seguid"
 
 .PHONY: seguid-tests

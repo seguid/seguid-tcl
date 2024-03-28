@@ -9,33 +9,29 @@ SEGUID algorithm.
 ## Examples
 
 ```sh
-$ seguid --type=cdseguid <<< "TAAAATT"
-input:TAAAATT
-cdseguid=tPOOjAPjLqsrTL42W8HaPKlfRsk
+## Linear single-stranded DNA
+$ seguid --type=lsseguid <<< "TATGCCAA"
+lsseguid=EevrucUNYjqlsxrTEK8JJxPYllk
 
-$ seguid --type=ldseguid <<< "TAAAATT"
-input:TAAAATT
-ldseguid=FpPo_uNuqlitTaXv6VEhjkndhE4
+## Circular single-stranded DNA
+$ seguid --type=csseguid <<< "TATGCCAA"
+csseguid=XsJzXMxgv7sbpqIzFH9dgrHUpWw
 
-$ seguid --type=lsseguid <<< "TAAAATT"
-input:TAAAATT
-lsseguid=Mx5yV5UCGeiMn1gVbiNiZPF9APM
+## Same rotating two basepairs
+$ seguid --type=csseguid <<< "GCCAATAT"
+csseguid=XsJzXMxgv7sbpqIzFH9dgrHUpWw
 
-$ seguid --type=csseguid <<< "TAAAATT"
-input:TAAAATT
-csseguid=iYbJwDEOVR7AOe-VE0jwVS5gsMc
+## Linear double-stranded DNA
+$ seguid --type=ldseguid <<< "AATATGCC;GGCATATT"
+ldseguid=dUxN7YQyVInv3oDcvz8ByupL44A
 
-$ seguid --type=ldseguid <<< "$'ATATGCC\nTATACGG'
-input:ATATGCC
-ldseguid=UnHLvKWgR_kAuUDz5D5zDYcYA7g
-```
+## Same swapping Watson and Crick 
+$ seguid --type=ldseguid <<< "GGCATATT;AATATGCC"
+ldseguid=dUxN7YQyVInv3oDcvz8ByupL44A
 
-It defaults to `--type=ldseguid`;
-
-```sh
-$ seguid <<< "TAAAATT"
-input:TAAAATT
-ldseguid=FpPo_uNuqlitTaXv6VEhjkndhE4
+## Same but rotated
+$ seguid --type=ldseguid <<< "AATATGCC;GGCATATT"
+cdseguid=dUxN7YQyVInv3oDcvz8ByupL44A
 ```
 
 

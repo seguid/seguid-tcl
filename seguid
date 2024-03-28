@@ -2,62 +2,87 @@
 # the next line restarts using tclsh \
 exec tclsh "$0" "$@"
 
-set version "0.0.1"
 
 ##################
 ## Find ldseguid for linear or cdseguid for circular
 ##################
-proc calculate_seguid {text mode} {
+proc calculate_seguid {text mode form} {
   global info
 
+  if {[regexp {(.*)\n(.*)} $text -- top bottom]} {
+    set bottom [string reverse $bottom]
+    set text "$top;$bottom"
+  } elseif {[regexp {(.*);(.*)} $text -- top bottom]} {
+  }
   switch $mode {
     "lss" {
       set prefix "lsseguid="
     }
     "css" {
+      lassign [short_rot $text] text --
       set prefix "csseguid="
-      set text [short_rot $text]
     }
     "lds" {
+      if {$top > $bottom} {
+        set text "$bottom;$top"
+      } 
       set prefix "ldseguid="
-      if {[string compare [set rc [revcom $text]] $text] < 0} {
-        set text "$rc\n[rev $text]"
+    }
+    "cds" {
+      set prefix "cdseguid="
+      lassign [short_rot $top $bottom] t t1
+      lassign [short_rot $bottom $top] b b1
+
+      if {[string compare $t $b] < 0} {
+        set text "$t;$t1"
       } else {
-        set text "$text\n[rev $rc]"
+        set text "$b;$b1"
       }
     }
-    "cds" -
+    "s" -
      default {
-      set prefix "cdseguid="
-      set a [short_rot $text]
-      set b [short_rot [revcom $text]]
-      if {[string compare $a $b] < 0} {
-        set text "$a\n[com $a]"
-      } else {
-        set text "$b\n[com $b]"
-      }
+      set prefix "seguid="
+     }
+  }
+  set base [string range [string map {+ -  / _} [::base64::encode [binary format H* [::sha1::sha1 $text]]]] 0 26]
+  switch $form {
+    "short" {
+      return "[string range $base 0 5]"
+    }
+    "both" {
+      return "[string range $base 0 5] $prefix$base"
+     }
+    "long" -
+    default {
+      return "$prefix$base"
     }
   }
-  # puts $text
-  return $prefix[string range [string map {+ -  / _} [::base64::encode [binary format H* [::sha1::sha1 $text]]]] 0 26]
+
 }
 
 ##################
 ## Find the shortest rotation of a string
 ##################
-proc short_rot {s} {
+proc short_rot {s {d ""}} {
+
+  set b [string reverse $d]
+  set bsf_b $b
+
   set bsf $s ;#best so far
   set len [string length $s]; # length of string
   set end $len
   append s $s; # duplicate string - makes rotations easier
+  append b $b
+
   for {set i 1} {$i < $len} {incr i} {
     if {[string compare [string range $s $i $end] $bsf] < 0} { 
       set bsf [string range $s $i $end]
+      set bsf_b [string range $b $i $end]
     } 
     incr end
   }
   # return best-so-far
-    return $bsf 
+    return [list $bsf [string reverse $bsf_b]]
 }
 
 
@@ -397,74 +422,103 @@ proc sputs {args} {
     puts stdout "$args"
 }
 
+proc validate {text alphabet} {
+  regsub {\{DNA\}} $alphabet "CG,AT" alphabet
+  regsub {\{RNA\}} $alphabet "CG,AU" alphabet
+  regsub {\{protein\}} $alphabet "A,C,D,E,F,G,H,I,K,L,M,N,P,Q,R,S,T,V,W,Y" alphabet
+  regsub {\{DNA-IUPAC\}} $alphabet "CG,AT,WW,SS,MK,RY,BV,DH,VB,NN" alphabet
+  regsub {\{RNA-IUPAC\}} $alphabet "CG,AU,WW,SS,MK,RY,BV,DH,VB,NN" alphabet
+  regsub {\{protein-IUPAC\}} $alphabet "A,C,D,E,F,G,H,I,K,L,M,N,P,Q,R,S,T,V,W,Y,B,J,Z,X" alphabet
+  regsub -all "," $alphabet "" allowed
+  set allowed_list [lsort -unique [split $allowed ""]]
+  set bottom_r {}
+  if {[regexp {(.*)\n(.*)} $text -- top bottom] || [regexp {(.*);(.*)} $text -- top bottom_r] } {
+    lappend allowed_list "-"
+    if {$bottom_r ne {}} {
+      set bottom [string reverse $bottom_r]
+    }
+    set pairs_list [split $alphabet ","]
+    foreach t [split $top ""] b [split $bottom ""] {
+      if {$t eq {} || $b eq {}} {
+        return "unbalanced lengths" 
+      }
+      if {$t ni $allowed_list || $b ni $allowed_list} {
+        return "invalid symbol"
+      }
+      if {$t ne "-" && $b ne "-" && "$t$b" ni $pairs_list && "$b$t" ni $pairs_list} {
+        return "incompatible sequences"
+      }
+    }
+  } else {
+    foreach t [split $text ""] {
+      if {$t ni $allowed_list} {
+        return "invalid symbol"
+      }
+    }
+  }
+  return "ok"
+}
 
 ##################
 ## Main
 ##################
+set version 0.1
 
-set mode "lds"
-
-## Parse command-line arguments
-foreach arg $argv {
-  if {$arg == "--version"} {
-    sputs $version
-    exit 0    
-  } elseif {$arg == "--help"} {
-    puts "seguid: Sequence Globally Unique Identifier (SEGUID) Checksums for Linear, Circular, Single-Stranded and Double-Stranded Biological Sequences"
-    puts ""
-    puts "Usage:"
-    puts " seguid \[options\] <<< '<sequence>'"
-    puts ""
-    puts "Options:"
-    puts " --help            Display the full help page with examples"
-    puts " --version         Output version of this software"
-    puts " --alphabet=<SET>  Set of symbols for the input sequence."
-    puts ""
-    puts "Predefined alphabets:"
-    puts " '{DNA}'           Complementary DNA symbols (= 'AT,CG')"
-    puts " '{IUPAC}'         Ambigous DNA (= '{DNA},BV,DH,KM,SS,RY,WW,NN')"
-    puts " '{RNA}'           Complementary RNA symbols (= 'AU,CG')"
-    puts " '{protein}'       Amino-acid symbols (= 'A,C,D,E,F,G,H,I,K,L,M,N,P,Q,R,S,"
-    puts "                   T,V,W,Y')"
-    puts ""
-    puts "Examples:"
-    puts "seguid --version"
-    puts "seguid --help"
-    puts ""
-    puts "echo 'ACGT' | seguid --type=lsseguid"
-    puts "seguid --type=lsseguid <<< 'ACGT'"
-    puts "seguid --type=cdseguid <<< $'ACGT\\nTGCA' # two-line syntax"
-    puts "seguid --type=ldseguid <<< 'ACGT;ACGT'    # watson-crick syntax"
-    puts "seguid --type=ldseguid <<< $'-CGT\\nTGCA' # two-line syntax"
-    puts "seguid --type=ldseguid <<< '-CGT;ACGT'    # watson-crick syntax"
-    puts ""
-    puts "Version: $version"
-    exit 0
-  } elseif { [string match "--type=*" $arg] } {
-    regexp -- {-type=(lds|cds|lss|css)eguid} $arg -- mode
-  } elseif { [string match "--alphabet=*" $arg] } {
-    error "Command-line option --alphabet=<SET> is not yet implemented: $arg"
-  } elseif { [string match "--form=*" $arg] } {
-    error "Command-line option --form=<FORM> is not yet implemented: $arg"
-  } else {
-  }
+if {[regexp -- {-version} $argv]} {
+    puts stdout "$version"
+    exit
+}
+if {[regexp -- {-help} $argv]} {
+    puts stdout "--version"
+    puts stdout "--help"
+    puts stdout "Usage: -type=(lds|cds|lss|css|s)eguid"
+    exit
 }
 
-set text ""
+set mode "s"
+set form "long"
+set alphabet {{DNA}}
+foreach arg [split $argv --] {
+  regexp -- {type=(lds|cds|lss|css|s)eguid} $arg -- mode
+  regexp -- {form=(long|short|both)} $arg -- form
+  regexp -- {alphabet=(.*)} $arg -- alphabet
+}
+
+
+set text_list ""
 while {[gets stdin line] >= 0} {
-    append text $line\n
+    lappend text_list $line
 }
-if {[regexp {[^GATCRYWSMKHBVDNgatcrywsmkhbvdn]} $text]} {
-  if {[regexp {^LOCUS.*ORIGIN\n([0-9,GATCRYWSMKHBVDNgatcrywsmkhbvdn\n\s]+)} $text -- text]} {
-  } elseif {[regexp {^>[^\n]+\n([GATCRYWSMKHBVDNgatcrywsmkhbvdn\n]+)} $text -- text]} {
-  } elseif {[regexp {([GATCRYWSMKHBVDNgatcrywsmkhbvdn]+)\n([GATCRYWSMKHBVDNgatcrywsmkhbvdn]+)} $text -- watson crick]} {
-    set crick [string rev $crick]
-    set text "$crick;$watson"
-  } elseif {[regexp {([GATCRYWSMKHBVDNgatcrywsmkhbvdn]+);([GATCRYWSMKHBVDNgatcrywsmkhbvdn]+)} $text -- watson crick]} {
-    set text "$crick;$watson"
-  } else {
-    regsub -all {[^GATCRYWSMKHBVDNgatcrywsmkhbvdn]} $text "" text
-  }
+set text [join $text_list \n]
+
+if {[regexp {(\n.*\n)} $text] || ($mode in [list "lss" "css" "s"] && [regexp {[\n]} $text]) } {
+  puts stderr "too many lines"
+  exit
+}
+if {[regexp {(;.*;)} $text] || ($mode in [list "lss" "css" "s"] && [regexp {[;]} $text]) } {
+  sputs stderr "too many strands"
+  exit
 }
 
-sputs [calculate_seguid $text $mode]
+if {$text eq {}} {
+  puts stderr "empty input"
+  exit
+}
+
+if { ($mode ne "lds" && [regexp {[^[:alnum:];\n]} $text]) || [regexp {[^[:alnum:];\-\n]} $text]} {
+  puts stderr "invalid symbol"
+  exit
+}
+
+if {[set err [validate $text $alphabet]] ne "ok"} {
+  puts stderr $err
+  exit
+}
+
+puts stdout [calculate_seguid $text $mode $form]
+
+
+
+
+
+

@@ -436,7 +436,7 @@ proc validate {text alphabet} {
 
   regsub {\{DNA-extended\}} $alphabet "CG,AT,WW,SS,MK,RY,BV,DH,VB,NN" alphabet
   regsub {\{RNA-extended\}} $alphabet "CG,AU,WW,SS,MK,RY,BV,DH,VB,NN" alphabet
-  regsub {\{protein-extended\}} $alphabet "A,C,D,E,F,G,H,I,K,L,M,N,P,Q,R,S,T,V,W,Y,B,J,Z,X" alphabet
+  regsub {\{protein-extended\}} $alphabet "A,C,D,E,F,G,H,I,K,L,M,N,P,Q,R,S,T,V,W,Y,B,O,U,J,Z,X" alphabet
 
   if {[regexp {(\{[^\,]*\}?)} $alphabet -- spec] || [regexp {([^\,]*\})} $alphabet -- spec]} {
     return "Unknown alphabet specification: $spec in alphabet: $alphabet" 

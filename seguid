@@ -429,18 +429,26 @@ proc sputs {args} {
 proc validate {text alphabet} {
   regsub {\{DNA\}} $alphabet "CG,AT" alphabet
   regsub {\{RNA\}} $alphabet "CG,AU" alphabet
-  regsub {\{protein\}} $alphabet "A,C,D,E,F,G,H,I,K,L,M,N,P,Q,R,S,T,V,W,Y" alphabet
+  regsub {\{protein\}} $alphabet "A,C,D,E,F,G,H,I,K,L,M,N,P,Q,R,S,T,V,W,Y,O,U" alphabet
   regsub {\{DNA-IUPAC\}} $alphabet "CG,AT,WW,SS,MK,RY,BV,DH,VB,NN" alphabet
   regsub {\{RNA-IUPAC\}} $alphabet "CG,AU,WW,SS,MK,RY,BV,DH,VB,NN" alphabet
-  regsub {\{protein-IUPAC\}} $alphabet "A,C,D,E,F,G,H,I,K,L,M,N,P,Q,R,S,T,V,W,Y,B,J,Z,X" alphabet
+  regsub {\{protein-IUPAC\}} $alphabet "A,C,D,E,F,G,H,I,K,L,M,N,P,Q,R,S,T,V,W,Y,B,O,U,J,Z,X" alphabet
 
   regsub {\{DNA-extended\}} $alphabet "CG,AT,WW,SS,MK,RY,BV,DH,VB,NN" alphabet
   regsub {\{RNA-extended\}} $alphabet "CG,AU,WW,SS,MK,RY,BV,DH,VB,NN" alphabet
   regsub {\{protein-extended\}} $alphabet "A,C,D,E,F,G,H,I,K,L,M,N,P,Q,R,S,T,V,W,Y,B,J,Z,X" alphabet
+
+  if {[regexp {(\{[^\,]*\}?)} $alphabet -- spec] || [regexp {([^\,]*\})} $alphabet -- spec]} {
+    return "Unknown alphabet specification: $spec in alphabet: $alphabet" 
+  }
+
   regsub -all "," $alphabet "" allowed
   set allowed_list [lsort -unique [split $allowed ""]]
   set bottom_r {}
   if {[regexp {(.*)\n(.*)} $text -- top bottom] || [regexp {(.*);(.*)} $text -- top bottom_r] } {
+    if {![regexp {^[[:alnum:]][[:alnum:]](\,[[:alnum:]][[:alnum:]])+$}  $alphabet]  } {
+      return "Improperly formatted alphabet specification: $alphabet" 
+    }
     lappend allowed_list "-"
     if {$bottom_r ne {}} {
       set bottom [string reverse $bottom_r]
@@ -450,17 +458,23 @@ proc validate {text alphabet} {
       if {$t eq {} || $b eq {}} {
         return "unbalanced lengths" 
       }
-      if {$t ni $allowed_list || $b ni $allowed_list} {
-        return "invalid symbol. Allowed symbols: $allowed_list"
+      if {$t ni $allowed_list } {
+        return "invalid symbol: $t Allowed symbols: $allowed_list"
+      }
+      if { $b ni $allowed_list} {
+        return "invalid symbol: $b. Allowed symbols: $allowed_list"
       }
       if {$t ne "-" && $b ne "-" && "$t$b" ni $pairs_list && "$b$t" ni $pairs_list} {
         return "incompatible sequences"
       }
     }
   } else {
+    if { ![regexp {^[[:alnum:]](\,[[:alnum:]])+$}  $alphabet] && ![regexp {^[[:alnum:]][[:alnum:]](\,[[:alnum:]][[:alnum:]])+$}  $alphabet] } {
+      return "Improperly formatted alphabet specification: $alphabet" 
+    }
     foreach t [split $text ""] {
       if {$t ni $allowed_list} {
-        return "invalid symbol. Allowed symbols: $allowed_list"
+        return "invalid symbol: $t. Allowed symbols: $allowed_list"
       }
     }
   }
@@ -479,7 +493,7 @@ if {[regexp -- {-version} $argv]} {
 if {[regexp -- {-help} $argv]} {
     puts stdout "--version"
     puts stdout "--help"
-    puts stdout "Usage: -type=(lds|cds|lss|css|s)eguid"
+    puts stdout "Usage: seguid --type=(lds|cds|lss|css|s)eguid  --form=(long|short|both) --version --alphabet=({DNA}{RNA}{protein}{DNA-extended}{RNA-extended}{protein-extended},alphanumeric csv "
     exit
 }
 
@@ -507,14 +521,22 @@ if {[regexp {(;.*;)} $text] || ($mode in [list "lss" "css" "s"] && [regexp {[;]}
   puts stderr  "sguid error: too many strands"
   exit 1
 }
+if {[regexp {([;\n].*[;\n])} $text]} {
+  puts stderr "sguid error: both semicolon and return in input text"
+  exit 1
+}
+if {$mode in [list "lds" "cds"] && ![regexp {[;\n]} $text]} {
+  puts stderr  "sguid error: only one strand specified for double stranded type"
+  exit 1
+}
 
 if {$text eq {}} {
   puts stderr "sguid error: empty input"
   exit 1
 }
 
-if { ($mode ne "lds" && [regexp {[^[:alnum:];\n]} $text]) || [regexp {[^[:alnum:];\-\n]} $text]} {
-  puts stderr "sguid error: invalid symbol"
+if { ($mode ne "lds" && [regexp {([^[:alnum:];\n])} $text -- sym]) || [regexp {([^[:alnum:];\-\n])} $text -- sym]} {
+  puts stderr "sguid error: invalid symbol: $sym"
   exit 1
 }
 

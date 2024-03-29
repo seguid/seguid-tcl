@@ -2,8 +2,8 @@
 
 # SEGUID v2: Checksums for Linear, Circular, Single- and Double-Stranded Biological Sequences
 
-This is a Tcl implementation of SEGUID v2 together with the original
-SEGUID algorithm.
+This is a Tool Command Language (Tcl) implementation of SEGUID v2
+together with the original SEGUID algorithm.
 
 
 ## Examples

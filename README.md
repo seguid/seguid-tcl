@@ -1,4 +1,4 @@
-[![CLI-check](https://github.com/seguid/seguid-tcl/actions/workflows/check-cli.yml/badge.svg)](https://github.com/seguid/seguid-tcl/actions/workflows/check-cli.yml)
+[![seguid-tests](https://github.com/seguid/seguid-tcl/actions/workflows/seguid-tests.yml/badge.svg)](https://github.com/seguid/seguid-tcl/actions/workflows/seguid-tests.yml)
 
 # SEGUID v2: Checksums for Linear, Circular, Single- and Double-Stranded Biological Sequences
 

@@ -15,6 +15,7 @@ seguid: src/seguid-cli.tcl src/base64.tcl src/sha1.tcl src/seguid.tcl
 	        echo "$${line}"; \
 	    fi; \
 	done < "$<" > "$@.tmp"
+	chmod ugo+x "$@.tmp"
 	mv "$@.tmp" "$@"
 
 

@@ -1,6 +1,21 @@
 SHELL=bash
 
-all: check-cli
+all: build check-cli
+
+build: seguid
+
+seguid: src/seguid-cli.tcl src/base64.tcl src/sha1.tcl src/seguid.tcl
+	while IFS= read -r line; do \
+	    if [[ "$${line}" == "source "* ]]; then \
+	        file=$$(sed 's/source \[file join [$$]script_path /src\//' <<< "$${line}" | sed 's/\]//'); \
+	        echo "## DON'T EDIT: The source of this part is $${file}"; \
+	        cat "$${file}"; \
+	        echo; \
+	    elif [[ "$${line}" != "set script_path "* ]]; then \
+	        echo "$${line}"; \
+	    fi; \
+	done < "$<" > "$@.tmp"
+	mv "$@.tmp" "$@"
 
 
 #---------------------------------------------------------------

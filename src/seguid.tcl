@@ -1,3 +1,23 @@
+proc seguid{text form} {
+  calculate_seguid $text s $form
+}
+
+proc lsseguid{text form} {
+  calculate_seguid $text lss $form
+}
+
+proc csseguid{text form} {
+  calculate_seguid $text css $form
+}
+
+proc ldseguid{text form} {
+  calculate_seguid $text lds $form
+}
+
+proc cdseguid{text form} {
+  calculate_seguid $text cds $form
+}
+
 ##################
 ## Find ldseguid for linear or cdseguid for circular
 ##################
@@ -135,6 +155,9 @@ proc validate {text alphabet} {
 
   if {[regexp {(\{[^\,]*\}?)} $alphabet -- spec] || [regexp {([^\,]*\})} $alphabet -- spec]} {
     return "Unknown alphabet specification: $spec in alphabet: $alphabet" 
+  }
+  if {![regexp {[^\s]} $alphabet -- spec]} {
+    return "Empty alphabet specification: $alphabet" 
   }
 
   regsub -all "," $alphabet "" allowed

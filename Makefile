@@ -1,6 +1,6 @@
 SHELL=bash
 
-all: build check-cli
+all: check-cli
 
 build: seguid
 
@@ -31,7 +31,7 @@ seguid-tests:
 	git submodule update
 	cd "$@" && git pull origin main
 
-check-cli: seguid-tests
+check-cli: seguid seguid-tests
 	$(MAKE) -C seguid-tests check-cli CLI_CALL="tclsh $(CURDIR)/seguid"
 
 .PHONY: seguid-tests

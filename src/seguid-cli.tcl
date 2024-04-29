@@ -1,12 +1,3 @@
-#!/bin/sh
-# the next line restarts using tclsh \
-exec tclsh "$0" "$@"
-
-set script_path [file dirname [info script]]
-source [file join $script_path base64.tcl]
-source [file join $script_path sha1.tcl]
-source [file join $script_path seguid.tcl]
-
 
 ##################
 ## Main
@@ -30,7 +21,7 @@ set alphabet {{DNA}}
 
   regexp -- {type=(lds|cds|lss|css|s)eguid} $argv -- mode
   regexp -- {form=(long|short|both)} $argv -- form
-  regexp -- {alphabet=([^\s\=]+)} $argv -- alphabet
+  regexp -- {alphabet=([^\s\=]*)} $argv -- alphabet
 
 
 
@@ -73,9 +64,3 @@ if {[set err [validate $text $alphabet]] ne "ok"} {
 }
 
 puts stdout [calculate_seguid $text $mode $form]
-
-
-
-
-
-

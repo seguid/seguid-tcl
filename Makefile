@@ -5,7 +5,7 @@ all: build check-cli
 build: seguid
 
 seguid: src/seguid-cli.tcl src/base64.tcl src/sha1.tcl src/seguid.tcl
-	grep -F "source [file join $$script_path " "$<"
+	grep -F 'source [file join $$script_path ' "$<"
 	while IFS= read -r line; do \
 	    if [[ "$${line}" == "source "* ]]; then \
 	        file=$$(sed 's/source \[file join [$$]script_path /src\//' <<< "$${line}" | sed 's/\]//'); \

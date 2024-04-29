@@ -1,20 +1,20 @@
-proc seguid{text form} {
+proc seguid {text form} {
   calculate_seguid $text s $form
 }
 
-proc lsseguid{text form} {
+proc lsseguid {text form} {
   calculate_seguid $text lss $form
 }
 
-proc csseguid{text form} {
+proc csseguid {text form} {
   calculate_seguid $text css $form
 }
 
-proc ldseguid{text form} {
+proc ldseguid {text form} {
   calculate_seguid $text lds $form
 }
 
-proc cdseguid{text form} {
+proc cdseguid {text form} {
   calculate_seguid $text cds $form
 }
 

@@ -481,10 +481,10 @@ proc validate {text alphabet} {
         return "unbalanced lengths" 
       }
       if {$t ni $allowed_list } {
-        return "invalid symbol: $t Allowed symbols: $allowed_list"
+        return "invalid symbol1: $t Allowed symbols: $allowed_list"
       }
       if { $b ni $allowed_list} {
-        return "invalid symbol: $b. Allowed symbols: $allowed_list"
+        return "invalid symbol1: $b. Allowed symbols: $allowed_list"
       }
       if {$t ne "-" && $b ne "-" && "$t$b" ni $pairs_list && "$b$t" ni $pairs_list} {
         return "incompatible sequences"
@@ -496,7 +496,7 @@ proc validate {text alphabet} {
     }
     foreach t [split $text ""] {
       if {$t ni $allowed_list} {
-        return "invalid symbol: $t. Allowed symbols: $allowed_list"
+        return "invalid symbol2: $t. Allowed symbols: $allowed_list"
       }
     }
   }

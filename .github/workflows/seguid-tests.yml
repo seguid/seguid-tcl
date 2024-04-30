@@ -35,6 +35,10 @@ jobs:
         if: runner.os != 'Windows'
         run: make check-cli
 
+#      - name: Check API
+#        if: runner.os != 'Windows'
+#        run: make check-api
+
       - name: Upload check results
         if: failure()
         uses: actions/upload-artifact@v4

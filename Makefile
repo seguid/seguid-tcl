@@ -34,4 +34,7 @@ seguid-tests:
 check-cli: seguid seguid-tests
 	$(MAKE) -C seguid-tests check-cli CLI_CALL="tclsh $(CURDIR)/seguid"
 
+check-api: seguid-tests
+	TCL_PATH="$(shell pwd)/$<"; $(MAKE) -C seguid-tests check-api/seguid-tcl
+
 .PHONY: seguid-tests

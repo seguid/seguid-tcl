@@ -1,3 +1,8 @@
+set version 0.0.1.9000
+
+##################
+## Public API
+##################
 proc seguid {text {form "long"}} {
   calculate_seguid $text s $form
 }

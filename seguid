@@ -304,7 +304,7 @@ namespace eval ::sha1 {
     }
 
 ## DON'T EDIT: The source of this part is src/seguid.tcl
-set version 0.0.1.9000
+set version 0.0.1.9001
 
 ##################
 ## Public API
@@ -579,5 +579,8 @@ proc main {} {
   puts stdout [calculate_seguid $text $mode $form]
 }
 
-main
+## Call 'main' only if this script was not source:d
+if {[file tail [info script]] ne "seguid-cli.tcl"} {
+  main
+}
 

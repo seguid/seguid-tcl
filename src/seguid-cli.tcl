@@ -75,5 +75,8 @@ proc main {} {
   puts stdout [calculate_seguid $text $mode $form]
 }
 
-main
+## Call 'main' only if this script was not source:d
+if {[file tail [info script]] ne "seguid-cli.tcl"} {
+  main
+}
 

@@ -54,6 +54,7 @@ folder.  To build it from source, do:
 $ make seguid
 Building seguid from src/seguid-cli.tcl src/base64.tcl src/sha1.tcl src/seguid.tcl ...
 -rwxrwxr-x 1 alice alice 15025 May  4 16:13 seguid
+Version built: 0.0.1.9000
 Building seguid from src/seguid-cli.tcl src/base64.tcl src/sha1.tcl src/seguid.tcl ... done
 ```
 
@@ -61,7 +62,7 @@ To verify it was built correctly, call:
 
 ```sh
 $ tclsh seguid --version
-0.1
+0.0.1-9000
 ```
 
 

@@ -11,7 +11,7 @@ source [file join $script_path seguid.tcl]
 ##################
 ## Main
 ##################
-set version 0.1
+set version 0.0.1.9000
 
 if {[regexp -- {-version} $argv]} {
     puts stdout "$version"

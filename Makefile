@@ -20,6 +20,7 @@ seguid: src/seguid-cli.tcl src/base64.tcl src/sha1.tcl src/seguid.tcl
 	@chmod ugo+x "$@.tmp"
 	@mv "$@.tmp" "$@"
 	@ls -l "$@"
+	@echo "Version built: $$(tclsh seguid --version)"
 	@echo "Building $@ from $^ ... done"
 
 

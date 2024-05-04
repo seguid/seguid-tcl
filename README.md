@@ -8,29 +8,31 @@ together with the original SEGUID algorithm.
 
 ## Examples
 
+### Command-line interface
+
 ```sh
 ## Linear single-stranded DNA
-$ seguid --type=lsseguid <<< "TATGCCAA"
+$ tclsh seguid --type=lsseguid <<< "TATGCCAA"
 lsseguid=EevrucUNYjqlsxrTEK8JJxPYllk
 
 ## Circular single-stranded DNA
-$ seguid --type=csseguid <<< "TATGCCAA"
+$ tclsh seguid --type=csseguid <<< "TATGCCAA"
 csseguid=XsJzXMxgv7sbpqIzFH9dgrHUpWw
 
 ## Same rotating two basepairs
-$ seguid --type=csseguid <<< "GCCAATAT"
+$ tclsh seguid --type=csseguid <<< "GCCAATAT"
 csseguid=XsJzXMxgv7sbpqIzFH9dgrHUpWw
 
 ## Linear double-stranded DNA
-$ seguid --type=ldseguid <<< "AATATGCC;GGCATATT"
+$ tclsh seguid --type=ldseguid <<< "AATATGCC;GGCATATT"
 ldseguid=dUxN7YQyVInv3oDcvz8ByupL44A
 
 ## Same swapping Watson and Crick 
-$ seguid --type=ldseguid <<< "GGCATATT;AATATGCC"
+$ tclsh seguid --type=ldseguid <<< "GGCATATT;AATATGCC"
 ldseguid=dUxN7YQyVInv3oDcvz8ByupL44A
 
 ## Same but rotated
-$ seguid --type=ldseguid <<< "AATATGCC;GGCATATT"
+$ tclsh seguid --type=ldseguid <<< "AATATGCC;GGCATATT"
 cdseguid=dUxN7YQyVInv3oDcvz8ByupL44A
 ```
 

@@ -303,7 +303,7 @@ namespace eval ::sha1 {
 	return [format %0.8x%0.8x%0.8x%0.8x%0.8x $H0 $H1 $H2 $H3 $H4]
     }
 
-## DON'T EDIT: The source of this part is src/seguid.tcl
+
 set version 0.0.1.9001
 
 ##################
@@ -511,9 +511,8 @@ proc validate {text alphabet} {
 }
 
 
-
 ##################
-## Main
+## CLI
 ##################
 proc main {} {
   if {[regexp -- {-version} $::argv]} {
@@ -583,4 +582,3 @@ proc main {} {
 if {[file tail [info script]] ne "seguid-cli.tcl"} {
   main
 }
-

@@ -14,13 +14,13 @@ together with the original SEGUID algorithm.
 $ tclsh
 % source src/seguid.tcl
 
-% puts [lsseguid "TATGCCAA"]
+% puts [seguid::lsseguid "TATGCCAA"]
 lsseguid=EevrucUNYjqlsxrTEK8JJxPYllk
 
-% puts [csseguid "TATGCCAA"]
+% puts [seguid::csseguid "TATGCCAA"]
 csseguid=XsJzXMxgv7sbpqIzFH9dgrHUpWw
 
-% puts [csseguid "GCCAATAT"]
+% puts [seguid::csseguid "GCCAATAT"]
 csseguid=XsJzXMxgv7sbpqIzFH9dgrHUpWw
 ```
 
@@ -71,7 +71,7 @@ folder.  To build it from source, do:
 $ make seguid
 Building seguid from src/seguid-cli.tcl src/base64.tcl src/sha1.tcl src/seguid.tcl ...
 -rwxrwxr-x 1 alice alice 15025 May  4 16:13 seguid
-Version built: 0.0.1.9000
+Version built: 0.0.1.9003
 Building seguid from src/seguid-cli.tcl src/base64.tcl src/sha1.tcl src/seguid.tcl ... done
 ```
 
@@ -79,7 +79,7 @@ To verify it was built correctly, call:
 
 ```sh
 $ tclsh seguid --version
-0.0.1-9000
+0.0.1-9003
 ```
 
 

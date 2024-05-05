@@ -6,7 +6,9 @@ set script_path [file dirname [info script]]
 source [file join $script_path base64.tcl]
 source [file join $script_path sha1.tcl]
 
-set version 0.0.1.9002
+namespace eval seguid {
+
+set version 0.0.1.9003
 
 ##################
 ## Public API
@@ -212,13 +214,15 @@ proc validate {text alphabet} {
   return "ok"
 }
 
+}
+
 
 ##################
 ## CLI
 ##################
 proc main {} {
   if {[regexp -- {-version} $::argv]} {
-      puts stdout "$::version"
+      puts stdout "$seguid::version"
       exit
   }
      
@@ -272,12 +276,12 @@ proc main {} {
     exit 1
   }
   
-  if {[set err [validate $text $alphabet]] ne "ok"} {
+  if {[set err [seguid::validate $text $alphabet]] ne "ok"} {
     puts stderr "sguid error: $err"
     exit 1
   }
   
-  puts stdout [calculate_seguid $text $mode $form]
+  puts stdout [seguid::calculate_seguid $text $mode $form]
 }
 
 ## Call 'main' only if this script was not source:d

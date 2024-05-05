@@ -304,7 +304,9 @@ namespace eval ::sha1 {
     }
 
 
-set version 0.0.1.9001
+namespace eval seguid {
+
+set version 0.0.1.9003
 
 ##################
 ## Public API
@@ -510,13 +512,15 @@ proc validate {text alphabet} {
   return "ok"
 }
 
+}
+
 
 ##################
 ## CLI
 ##################
 proc main {} {
   if {[regexp -- {-version} $::argv]} {
-      puts stdout "$::version"
+      puts stdout "$seguid::version"
       exit
   }
      
@@ -570,15 +574,15 @@ proc main {} {
     exit 1
   }
   
-  if {[set err [validate $text $alphabet]] ne "ok"} {
+  if {[set err [seguid::validate $text $alphabet]] ne "ok"} {
     puts stderr "sguid error: $err"
     exit 1
   }
   
-  puts stdout [calculate_seguid $text $mode $form]
+  puts stdout [seguid::calculate_seguid $text $mode $form]
 }
 
 ## Call 'main' only if this script was not source:d
-if {[file tail [info script]] ne "seguid-cli.tcl"} {
+if {[file tail [info script]] ne "seguid.tcl"} {
   main
 }

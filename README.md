@@ -8,7 +8,24 @@ together with the original SEGUID algorithm.
 
 ## Examples
 
-### Command-line interface
+### API
+
+```tcl
+$ tclsh
+% source src/seguid.tcl
+
+% puts [lsseguid "TATGCCAA"]
+lsseguid=EevrucUNYjqlsxrTEK8JJxPYllk
+
+% puts [csseguid "TATGCCAA"]
+csseguid=XsJzXMxgv7sbpqIzFH9dgrHUpWw
+
+% puts [csseguid "GCCAATAT"]
+csseguid=XsJzXMxgv7sbpqIzFH9dgrHUpWw
+```
+
+
+### CLI
 
 ```sh
 ## Linear single-stranded DNA

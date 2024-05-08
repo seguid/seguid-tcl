@@ -5,12 +5,15 @@ all: check-cli
 build: seguid
 
 src/base64.tcl:
+	@url=https://core.tcl-lang.org/tcllib/raw/f6bea09d4aa9768279d2b74f7ab4a114dfb7c0583beded9da44eda66e888b8f7?at=base64.tcl; \
+	tf=base64.tcl; \
+	curl --silent "$${url}" > "$${tf}"; \
 	{ \
-	  url=https://core.tcl-lang.org/tcllib/raw/f6bea09d4aa9768279d2b74f7ab4a114dfb7c0583beded9da44eda66e888b8f7?at=base64.tcl; \
-	  echo "## The following code was extracted from the tcllib source code"; \
+	  echo "## The following Base64 encode code was extracted from the tcllib source code"; \
 	  echo "## $${url}"; \
 	  echo ; \
-	  curl --silent "$${url}" | sed -n -e '/namespace eval base64 {/,$$p' | sed -e '/# ::base64::decode --/,$$d' | sed 's/ decode//'; \
+	  head -n 19 "$${tf}"; \
+	  sed -n -e '/namespace eval base64 {/,$$p' "$${tf}" | sed -e '/# ::base64::decode --/,$$d' | sed 's/ decode//'; \
 	} >> "$@"
 
 seguid: src/seguid.tcl src/base64.tcl src/sha1.tcl

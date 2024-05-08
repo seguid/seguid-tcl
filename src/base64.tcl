@@ -1,5 +1,24 @@
-## The following code was extracted from the tcllib source code
+## The following Base64 encode code was extracted from the tcllib source code
 ## https://core.tcl-lang.org/tcllib/raw/f6bea09d4aa9768279d2b74f7ab4a114dfb7c0583beded9da44eda66e888b8f7?at=base64.tcl
+
+# base64.tcl --
+#
+# Encode/Decode base64 for a string
+# Stephen Uhler / Brent Welch (c) 1997 Sun Microsystems
+# The decoder was done for exmh by Chris Garrigues
+#
+# Copyright (c) 1998-2000 by Ajuba Solutions.
+# See the file "license.terms" for information on usage and redistribution
+# of this file, and for a DISCLAIMER OF ALL WARRANTIES.
+
+# Version 1.0   implemented Base64_Encode, Base64_Decode
+# Version 2.0   uses the base64 namespace
+# Version 2.1   fixes various decode bugs and adds options to encode
+# Version 2.2   is much faster, Tcl8.0 compatible
+# Version 2.2.1 bugfixes
+# Version 2.2.2 bugfixes
+# Version 2.3   bugfixes and extended to support Trf
+# Version 2.4.x bugfixes
 
     namespace eval base64 {
 	variable base64 {}

@@ -3,9 +3,6 @@
 exec tclsh "$0" "$@"
 
 ## DON'T EDIT: The source of this part is src/base64.tcl
-##############
-## base64 encoding from base64 package
-##############
     namespace eval base64 {
 	variable base64 {}
 	variable base64_en {}
@@ -56,9 +53,23 @@ exec tclsh "$0" "$@"
 
 	namespace export encode
     }
+
+    # ::base64::encode --
+    #
+    #	Base64 encode a given string.
+    #
+    # Arguments:
+    #	args	?-maxlen maxlen? ?-wrapchar wrapchar? string
+    #
+    #		If maxlen is 0, the output is not wrapped.
+    #
+    # Results:
+    #	A Base64 encoded version of $string, wrapped at $maxlen characters
+    #	by $wrapchar.
+
     proc ::base64::encode {args} {
 	set base64_en $::base64::base64_en
-	
+
 	# Set the default wrapchar and maximum line length to match
 	# the settings for MIME encoding (RFC 3548, RFC 2045). These
 	# are the settings used by Trf as well. Various RFCs allow for
@@ -94,7 +105,7 @@ exec tclsh "$0" "$@"
 	    # FRINK: nocheck
 	    set [string range [lindex $optionStrings $index] 1 end] $val
 	}
-    
+
 	# [string is] requires Tcl8.2; this works with 8.0 too
 	if {[catch {expr {$maxlen % 2}}]} {
 	    return -code error "expected integer but got \"$maxlen\""
@@ -154,6 +165,7 @@ exec tclsh "$0" "$@"
 	incr length
 	return
     }
+
 
 ## DON'T EDIT: The source of this part is src/sha1.tcl
 ##############

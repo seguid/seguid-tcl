@@ -8,7 +8,7 @@ source [file join $script_path sha1.tcl]
 
 namespace eval seguid {
 
-  set version 0.0.1.9005
+  set version 0.0.1.9006
   
   ##################
   ## Public API
@@ -161,10 +161,6 @@ proc validate {text alphabet} {
   regsub {\{DNA\}} $alphabet "CG,AT" alphabet
   regsub {\{RNA\}} $alphabet "CG,AU" alphabet
   regsub {\{protein\}} $alphabet "A,C,D,E,F,G,H,I,K,L,M,N,P,Q,R,S,T,V,W,Y,O,U" alphabet
-  regsub {\{DNA-IUPAC\}} $alphabet "CG,AT,WW,SS,MK,RY,BV,DH,VB,NN" alphabet
-  regsub {\{RNA-IUPAC\}} $alphabet "CG,AU,WW,SS,MK,RY,BV,DH,VB,NN" alphabet
-  regsub {\{protein-IUPAC\}} $alphabet "A,C,D,E,F,G,H,I,K,L,M,N,P,Q,R,S,T,V,W,Y,B,O,U,J,Z,X" alphabet
-
   regsub {\{DNA-extended\}} $alphabet "CG,AT,WW,SS,MK,RY,BV,DH,VB,NN" alphabet
   regsub {\{RNA-extended\}} $alphabet "CG,AU,WW,SS,MK,RY,BV,DH,VB,NN" alphabet
   regsub {\{protein-extended\}} $alphabet "A,C,D,E,F,G,H,I,K,L,M,N,P,Q,R,S,T,V,W,Y,B,O,U,J,Z,X" alphabet

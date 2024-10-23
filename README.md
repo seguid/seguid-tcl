@@ -14,6 +14,26 @@ together with the original SEGUID algorithm.
 $ tclsh
 % source src/seguid.tcl
 
+## Linear double-stranded DNA
+% puts [seguid::ldseguid "AATATGCC" "GGCATATT"]
+cdseguid=dUxN7YQyVInv3oDcvz8ByupL44A
+
+## Same swapping Watson and Crick 
+% puts [seguid::ldseguid "GGCATATT" "AATATGCC"]
+cdseguid=dUxN7YQyVInv3oDcvz8ByupL44A
+
+## Circular double-stranded DNA
+% puts [seguid::cdseguid "TATGCCAA" "TTGGCATA"]
+cdseguid=dUxN7YQyVInv3oDcvz8ByupL44A
+
+## Same swapping Watson and Crick 
+% puts [seguid::cdseguid "TTGGCATA" "TATGCCAA"]
+cdseguid=dUxN7YQyVInv3oDcvz8ByupL44A
+
+## Same rotating two basepairs  = minimal rotation by Watson)
+% puts [seguid::cdseguid "AATATGCC" "GGCATATT"]
+cdseguid=dUxN7YQyVInv3oDcvz8ByupL44A
+
 % puts [seguid::lsseguid "TATGCCAA"]
 lsseguid=EevrucUNYjqlsxrTEK8JJxPYllk
 
@@ -70,8 +90,8 @@ folder.  To build it from source, do:
 ```sh
 $ make seguid
 Building seguid from src/seguid.tcl src/base64.tcl src/sha1.tcl ...
--rwxrwxr-x 1 henrik henrik 16243 Jun  7 11:05 seguid
-Version built: 0.0.1.9006
+-rwxrwxr-x 1 henrik henrik 17832 Oct 23 15:21 seguid
+Version built: 0.0.1.9007
 Building seguid from src/seguid.tcl src/base64.tcl src/sha1.tcl ... done
 ```
 
@@ -79,7 +99,7 @@ To verify it was built correctly, call:
 
 ```sh
 $ tclsh seguid --version
-0.0.1-9006
+0.0.1-9007
 ```
 
 

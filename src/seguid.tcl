@@ -8,7 +8,7 @@ source [file join $script_path sha1.tcl]
 
 namespace eval seguid {
 
-  set version 0.0.1.9006
+  set version 0.0.1.9007
   
   ##################
   ## Public API
@@ -16,7 +16,7 @@ namespace eval seguid {
   proc seguid {seq {alphabet {{DNA}}} {form "long"}} {
     set mode "s"
     if {[set err [validate_text $seq $mode]] ne "ok" || [set err [validate_alphabet $seq $alphabet]] ne "ok"} {
-      return "sguid error: $err"
+      return "seguid error: $err"
     }
     return [calculate_seguid $seq $mode $form]
   }
@@ -24,7 +24,7 @@ namespace eval seguid {
   proc lsseguid {seq {alphabet {{DNA}}} {form "long"}} {
     set mode "lss"
     if {[set err [validate_text $seq $mode]] ne "ok" || [set err [validate_alphabet $seq $alphabet]] ne "ok"} {
-      return "sguid error: $err"
+      return "seguid error: $err"
     }
     return [calculate_seguid $seq $mode $form]
   }
@@ -32,7 +32,7 @@ namespace eval seguid {
   proc csseguid {seq {alphabet {{DNA}}} {form "long"}} {
     set mode "css"
     if {[set err [validate_text $seq $mode]] ne "ok" || [set err [validate_alphabet $seq $alphabet]] ne "ok"} {
-      return "sguid error: $err"
+      return "seguid error: $err"
     }
     return [calculate_seguid $seq $mode $form]
   }
@@ -41,7 +41,7 @@ namespace eval seguid {
     set mode "lds"
     set seq [join [list $top [string reverse $bottom]] \n]
     if {[set err [validate_text $seq $mode]] ne "ok" || [set err [validate_alphabet $seq $alphabet]] ne "ok"} {
-      return "sguid error: $err"
+      return "seguid error: $err"
     }
     return [calculate_seguid $seq $mode $form]
   }
@@ -50,7 +50,7 @@ namespace eval seguid {
     set mode "cds"
     set seq [join [list $top [string reverse $bottom]] \n]
     if {[set err [validate_text $seq $mode]] ne "ok" || [set err [validate_alphabet $seq $alphabet]] ne "ok"} {
-      return "sguid error: $err"
+      return "seguid error: $err"
     }
     return [calculate_seguid $seq $mode $form]
   }
@@ -235,24 +235,24 @@ namespace eval seguid {
   
   proc validate_text {text mode} {
     if {[regexp {(\n.*\n)} $text] || ($mode in [list "lss" "css" "s"] && [regexp {[\n]} $text]) } {
-      return "sguid error: too many lines"
+      return "seguid error: too many lines"
     }
     if {[regexp {(;.*;)} $text] || ($mode in [list "lss" "css" "s"] && [regexp {[;]} $text]) } {
-      return "sguid error: too many strands"
+      return "seguid error: too many strands"
     }
     if {[regexp {([;\n].*[;\n])} $text]} {
-      return "sguid error: both semicolon and return in input text"
+      return "seguid error: both semicolon and return in input text"
     }
     if {$mode in [list "lds" "cds"] && ![regexp {[;\n]} $text]} {
-      return "sguid error: only one strand specified for double stranded type"
+      return "seguid error: only one strand specified for double stranded type"
     }
     
     if {$text eq {}} {
-      return "sguid error: empty input"
+      return "seguid error: empty input"
     }
     
     if { ($mode ne "lds" && [regexp {([^[:alnum:];\n])} $text -- sym]) || [regexp {([^[:alnum:];\-\n])} $text -- sym]} {
-      return "sguid error: invalid symbol: $sym"
+      return "seguid error: invalid symbol: $sym"
     }
     return "ok"
   }
@@ -291,12 +291,12 @@ proc main {} {
   set text [join $text_list \n]
   
   if {[set err [seguid::validate_text $text $mode]] ne "ok"} {
-    puts stderr "sguid error: $err"
+    puts stderr "seguid error: $err"
     exit 1
   }
   
   if {[set err [seguid::validate_alphabet $text $alphabet]] ne "ok"} {
-    puts stderr "sguid error: $err"
+    puts stderr "seguid error: $err"
     exit 1
   }
   

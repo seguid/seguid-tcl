@@ -90,8 +90,8 @@ the `src/` folder.  To build it from source, do:
 ```sh
 $ make seguid
 Building seguid from src/seguid.tcl src/base64.tcl src/sha1.tcl ...
--rwxrwxr-x 1 henrik henrik 17832 Oct 23 15:21 seguid
-Version built: 0.0.1.9007
+-rwxrwxr-x 1 henrik henrik 17827 Oct 23 16:28 seguid
+Version built: 0.0.2
 Building seguid from src/seguid.tcl src/base64.tcl src/sha1.tcl ... done
 ```
 
@@ -99,7 +99,7 @@ To verify it was built correctly, call:
 
 ```sh
 $ tclsh seguid --version
-0.0.1-9007
+0.0.2
 ```
 
 

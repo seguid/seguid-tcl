@@ -84,8 +84,8 @@ This Tcl implementation of SEGUID requires:
 
 ## Build from source
 
-The `seguid` Tcl script is built from the Tcl scripts in the `src/`
-folder.  To build it from source, do:
+The standalone `seguid` Tcl script is built from the Tcl scripts in
+the `src/` folder.  To build it from source, do:
 
 ```sh
 $ make seguid

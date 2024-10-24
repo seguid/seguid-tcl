@@ -1,7 +1,28 @@
-##############
-## sha1 hashing from tcllib
-##############
-namespace eval ::sha1 {
+## The following SHA-1 code was extracted from the tcllib source code
+## https://core.tcl-lang.org/tcllib/raw/b52facec511fa8edea4e8f0d3a71214fe137c179?at=sha1.tcl
+
+##################################################
+#
+# sha1.tcl - SHA1 in Tcl
+# Author: Don Libes <libes@nist.gov>, May 2001
+# Version 1.0.3
+#
+# SHA1 defined by FIPS 180-1, "The SHA1 Message-Digest Algorithm",
+#          http://www.itl.nist.gov/fipspubs/fip180-1.htm
+# HMAC defined by RFC 2104, "Keyed-Hashing for Message Authentication"
+#
+# Some of the comments below come right out of FIPS 180-1; That's why
+# they have such peculiar numbers.  In addition, I have retained
+# original syntax, etc. from the FIPS.  All remaining bugs are mine.
+#
+# HMAC implementation by D. J. Hagberg <dhagberg@millibits.com> and
+# is based on C code in FIPS 2104.
+#
+# For more info, see: http://expect.nist.gov/sha1pure
+#
+# - Don
+##################################################
+    namespace eval ::sha1 {
 	variable K
 
 	proc initK {} {
@@ -18,9 +39,7 @@ namespace eval ::sha1 {
 	    }
 	}
 	initK
-}
-
- 
+    }
 
     proc ::sha1::sha1 {msg} {
 	variable K
@@ -144,3 +163,4 @@ namespace eval ::sha1 {
 
 	return [format %0.8x%0.8x%0.8x%0.8x%0.8x $H0 $H1 $H2 $H3 $H4]
     }
+

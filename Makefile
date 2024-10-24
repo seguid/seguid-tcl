@@ -6,7 +6,7 @@ build: seguid
 
 src/base64.tcl:
 	@url=https://core.tcl-lang.org/tcllib/raw/f6bea09d4aa9768279d2b74f7ab4a114dfb7c0583beded9da44eda66e888b8f7?at=base64.tcl; \
-	tf=base64.tcl; \
+	tf=$$(mktemp --suffix="base64.tcl"); \
 	curl --silent "$${url}" > "$${tf}"; \
 	{ \
 	  echo "## The following Base64 encode code was extracted from the tcllib source code"; \
@@ -14,7 +14,9 @@ src/base64.tcl:
 	  echo ; \
 	  head -n 19 "$${tf}"; \
 	  sed -n -e '/namespace eval base64 {/,$$p' "$${tf}" | sed -e '/# ::base64::decode --/,$$d' | sed 's/ decode//'; \
-	} >> "$@"
+	} >> "$@.tmp"; \
+	rm "$${tf}"
+	@mv "$@.tmp" "$@"
 
 src/sha1.tcl:
 	url=https://core.tcl-lang.org/tcllib/raw/b52facec511fa8edea4e8f0d3a71214fe137c179?at=sha1.tcl; \

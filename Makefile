@@ -16,6 +16,21 @@ src/base64.tcl:
 	  sed -n -e '/namespace eval base64 {/,$$p' "$${tf}" | sed -e '/# ::base64::decode --/,$$d' | sed 's/ decode//'; \
 	} >> "$@"
 
+src/sha1.tcl:
+	url=https://core.tcl-lang.org/tcllib/raw/b52facec511fa8edea4e8f0d3a71214fe137c179?at=sha1.tcl; \
+	tf=$$(mktemp --suffix="sha1.tcl"); \
+	curl --silent "$${url}" > "$${tf}"; \
+	{ \
+	  echo "## The following SHA-1 code was extracted from the tcllib source code"; \
+	  echo "## $${url}"; \
+	  echo ; \
+	  head -n 22 "$${tf}" | head -n -1; \
+	  sed -n -e '/    namespace eval ::sha1 {/,$$p' "$${tf}" | sed '/# test sha1/,/proc ::sha1::sha1 {msg}/{/proc ::sha1::sha1 {msg}/!d}' | sed -e '/### These procedures are either inlined or replaced with a normal/,$$d'; \
+	} >> "$@.tmp"; \
+	rm "$${tf}"
+	@mv "$@.tmp" "$@"
+
+
 seguid: src/seguid.tcl src/base64.tcl src/sha1.tcl
 	@echo "Building $@ from $^ ..."
 	@grep -q -F 'source [file join $$script_path ' "$<"

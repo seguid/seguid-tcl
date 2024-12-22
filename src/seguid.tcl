@@ -1,6 +1,6 @@
-##!/bin/sh
+#! /bin/sh
 ## the next line restarts using tclsh \
-#exec tclsh "$0" "$@"
+exec tclsh "$0" "$@"
 
 set script_path [file dirname [info script]]
 source [file join $script_path tcllib/base64.tcl]
@@ -12,7 +12,7 @@ source [file join $script_path tcllib/sha1.tcl]
 
 namespace eval seguid {
 
-  set version 0.0.2-9005
+  set version 0.0.3
   
   ##################
   ## Public API

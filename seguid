@@ -1,6 +1,6 @@
-##!/bin/sh
+#! /bin/sh
 ## the next line restarts using tclsh \
-#exec tclsh "$0" "$@"
+exec tclsh "$0" "$@"
 
 ## DON'T EDIT: The source of this part is src/tcllib/base64.tcl
 ## The following Base64 encode code was extracted from the tcllib source code
@@ -378,7 +378,7 @@
 
 namespace eval seguid {
 
-  set version 0.0.2-9005
+  set version 0.0.3
   
   ##################
   ## Public API

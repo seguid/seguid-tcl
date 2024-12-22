@@ -1,5 +1,12 @@
 ## The following Base64 encode code was extracted from the tcllib source code
 ## https://core.tcl-lang.org/tcllib/raw/f6bea09d4aa9768279d2b74f7ab4a114dfb7c0583beded9da44eda66e888b8f7?at=base64.tcl
+## The tcllib license can be found in src/tcllib/license.terms.
+## From <https://wiki.tcl-lang.org/page/license>: "The Tcl/Tk license is a
+## BSD-type license, which is much less restrictive than the GPL. According
+## to the Fedora Project software license list, the Tcl/Tk license meets the
+## FSF definition of free software, and is compatible with both versions 2
+## and 3 of the GPL. It is not OSI approved, possibly because it has simply
+## never been considered by the OSI, but the very similar new BSD license is."
 
 # base64.tcl --
 #

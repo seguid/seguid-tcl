@@ -6,9 +6,13 @@ set script_path [file dirname [info script]]
 source [file join $script_path tcllib/base64.tcl]
 source [file join $script_path tcllib/sha1.tcl]
 
+# Copyright and License:
+# The below SEGUID code is copyright M. Wayne Davis and Henrik Bengtsson,
+# and released under the MIT license.
+
 namespace eval seguid {
 
-  set version 0.0.2-9002
+  set version 0.0.2-9003
   
   ##################
   ## Public API

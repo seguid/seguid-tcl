@@ -16,6 +16,13 @@ src/tcllib/base64.tcl: src/tcllib/license.terms
 	{ \
 	  echo "## The following Base64 encode code was extracted from the tcllib source code"; \
 	  echo "## $${url}"; \
+	  echo "## The tcllib license can be found in src/tcllib/license.terms."; \
+	  echo "## From <https://wiki.tcl-lang.org/page/license>: \"The Tcl/Tk license is a"; \
+	  echo "## BSD-type license, which is much less restrictive than the GPL. According"; \
+	  echo "## to the Fedora Project software license list, the Tcl/Tk license meets the"; \
+	  echo "## FSF definition of "free software", and is compatible with both versions 2"; \
+	  echo "## and 3 of the GPL. It is not OSI approved, possibly because it has simply"; \
+	  echo "## never been considered by the OSI, but the very similar new BSD license is.\""; \
 	  echo ; \
 	  head -n 19 "$${tf}"; \
 	  sed -n -e '/namespace eval base64 {/,$$p' "$${tf}" | sed -e '/# ::base64::decode --/,$$d' | sed 's/ decode//'; \
@@ -30,6 +37,13 @@ src/tcllib/sha1.tcl: src/tcllib/license.terms
 	{ \
 	  echo "## The following SHA-1 code was extracted from the tcllib source code"; \
 	  echo "## $${url}"; \
+	  echo "## The tcllib license can be found in src/tcllib/license.terms."; \
+	  echo "## From <https://wiki.tcl-lang.org/page/license>: \"The Tcl/Tk license is a"; \
+	  echo "## BSD-type license, which is much less restrictive than the GPL. According"; \
+	  echo "## to the Fedora Project software license list, the Tcl/Tk license meets the"; \
+	  echo "## FSF definition of "free software", and is compatible with both versions 2"; \
+	  echo "## and 3 of the GPL. It is not OSI approved, possibly because it has simply"; \
+	  echo "## never been considered by the OSI, but the very similar new BSD license is.\""; \
 	  echo ; \
 	  head -n 22 "$${tf}" | head -n -1; \
 	  sed -n -e '/    namespace eval ::sha1 {/,$$p' "$${tf}" | sed '/# test sha1/,/proc ::sha1::sha1 {msg}/{/proc ::sha1::sha1 {msg}/!d}' | sed -e '/### These procedures are either inlined or replaced with a normal/,$$d'; \

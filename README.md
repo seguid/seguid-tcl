@@ -89,17 +89,17 @@ the `src/` folder.  To build it from source, do:
 
 ```sh
 $ make seguid
-Building seguid from src/seguid.tcl src/base64.tcl src/sha1.tcl ...
--rwxrwxr-x 1 henrik henrik 17827 Oct 23 16:28 seguid
-Version built: 0.0.2
-Building seguid from src/seguid.tcl src/base64.tcl src/sha1.tcl ... done
+Building seguid from src/seguid.tcl src/tcllib/base64.tcl src/tcllib/sha1.tcl ...
+-rwxrwxr-x 1 henrik henrik 21288 Dec 21 18:10 seguid
+Version built: 0.0.3
+Building seguid from src/seguid.tcl src/tcllib/base64.tcl src/tcllib/sha1.tcl ... done
 ```
 
 To verify it was built correctly, call:
 
 ```sh
 $ tclsh seguid --version
-0.0.2
+0.0.3
 ```
 
 

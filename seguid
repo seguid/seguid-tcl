@@ -2,7 +2,7 @@
 ## the next line restarts using tclsh \
 #exec tclsh "$0" "$@"
 
-## DON'T EDIT: The source of this part is src/base64.tcl
+## DON'T EDIT: The source of this part is src/tcllib/base64.tcl
 ## The following Base64 encode code was extracted from the tcllib source code
 ## https://core.tcl-lang.org/tcllib/raw/f6bea09d4aa9768279d2b74f7ab4a114dfb7c0583beded9da44eda66e888b8f7?at=base64.tcl
 
@@ -189,7 +189,7 @@
     }
 
 
-## DON'T EDIT: The source of this part is src/sha1.tcl
+## DON'T EDIT: The source of this part is src/tcllib/sha1.tcl
 ## The following SHA-1 code was extracted from the tcllib source code
 ## https://core.tcl-lang.org/tcllib/raw/b52facec511fa8edea4e8f0d3a71214fe137c179?at=sha1.tcl
 
@@ -360,7 +360,7 @@
 
 namespace eval seguid {
 
-  set version 0.0.2-9001
+  set version 0.0.2-9002
   
   ##################
   ## Public API

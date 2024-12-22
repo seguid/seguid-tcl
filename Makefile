@@ -4,7 +4,7 @@ all: check-cli
 
 build: seguid
 
-src/base64.tcl:
+src/tcllib/base64.tcl:
 	@url=https://core.tcl-lang.org/tcllib/raw/f6bea09d4aa9768279d2b74f7ab4a114dfb7c0583beded9da44eda66e888b8f7?at=base64.tcl; \
 	tf=$$(mktemp --suffix="base64.tcl"); \
 	curl --silent "$${url}" > "$${tf}"; \
@@ -18,7 +18,7 @@ src/base64.tcl:
 	rm "$${tf}"
 	@mv "$@.tmp" "$@"
 
-src/sha1.tcl:
+src/tcllib/sha1.tcl:
 	url=https://core.tcl-lang.org/tcllib/raw/b52facec511fa8edea4e8f0d3a71214fe137c179?at=sha1.tcl; \
 	tf=$$(mktemp --suffix="sha1.tcl"); \
 	curl --silent "$${url}" > "$${tf}"; \
@@ -33,7 +33,7 @@ src/sha1.tcl:
 	@mv "$@.tmp" "$@"
 
 
-seguid: src/seguid.tcl src/base64.tcl src/sha1.tcl
+seguid: src/seguid.tcl src/tcllib/base64.tcl src/tcllib/sha1.tcl
 	@echo "Building $@ from $^ ..."
 	@grep -q -F 'source [file join $$script_path ' "$<"
 	@while IFS= read -r line; do \

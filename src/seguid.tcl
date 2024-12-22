@@ -12,7 +12,7 @@ source [file join $script_path tcllib/sha1.tcl]
 
 namespace eval seguid {
 
-  set version 0.0.2-9003
+  set version 0.0.2-9005
   
   ##################
   ## Public API
@@ -260,11 +260,51 @@ namespace eval seguid {
     }
     return "ok"
   }
+
+  proc help {} {
+      puts stdout [string map [list "{{version}}" $seguid::version] {
+seguid: Sequence Globally Unique Identifier Checksums for Linear, Circular, Single- and Double-Stranded Biological Sequences
+
+Usage:
+ tclsh seguid [options] <<< '<sequence>'
+
+Options:  
+ --help            Display the full help page with examples
+ --version         Output version of this software
+ --alphabet=<SET>  Set of symbols for the input sequence.
+
+Predefined alphabets:
+ '{DNA}'              Complementary DNA symbols (= 'AT,CG')
+ '{DNA-extended}'     Extended DNA (= '{DNA},BV,DH,KM,SS,RY,WW,NN')
+ '{RNA}'              Complementary RNA symbols (= 'AU,CG')
+ '{RNA-extended}'     Extended DNA (= '{RNA},BV,DH,KM,SS,RY,WW,NN')
+ '{protein}'          Amino-acid symbols (= 'A,C,D,E,F,G,H,I,K,L,M,N,P,Q,R,S,
+                      T,V,W,Y')
+ '{protein-extended}' Amino-acid symbols (= '{protein},O,U,B,J,Z,X')
+
+Examples:
+tclsh seguid --version
+tclsh seguid --help
+
+echo 'ACGT' | tclsh seguid --type=lsseguid
+tclsh seguid --type=lsseguid <<< 'ACGT'
+tclsh seguid --type=cdseguid <<< $'ACGT\nTGCA' # two-line syntax
+tclsh seguid --type=ldseguid <<< 'ACGT;ACGT'   # watson-crick syntax
+tclsh seguid --type=ldseguid <<< $'-CGT\nTGCA' # two-line syntax
+tclsh seguid --type=ldseguid <<< '-CGT;ACGT'   # watson-crick syntax
+tclsh seguid --type=lsseguid --alphabet='{RNA}' <<< 'ACGU'
+
+Version: {{version}}
+Copyright: Henrik Bengtsson (2023-2024)
+License: MIT
+}]
+  }
 }
 
 ##################
 ## CLI
 ##################
+
 proc main {} {
   if {[regexp -- {-version} $::argv]} {
       puts stdout "$seguid::version"
@@ -272,9 +312,7 @@ proc main {} {
   }
      
   if {[regexp -- {-help} $::argv]} {
-      puts stdout "--version"
-      puts stdout "--help"
-      puts stdout "Usage: seguid --type=(lds|cds|lss|css|s)eguid  --form=(long|short|both) --version --alphabet=({DNA}{RNA}{protein}{DNA-extended}{RNA-extended}{protein-extended},alphanumeric csv "
+      seguid::help
       exit
   }
   

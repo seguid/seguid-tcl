@@ -661,8 +661,10 @@ tclsh seguid --type=ldseguid <<< '-CGT;ACGT'   # watson-crick syntax
 tclsh seguid --type=lsseguid --alphabet='{RNA}' <<< 'ACGU'
 
 Version: {{version}}
-Copyright: Henrik Bengtsson (2023-2024)
-License: MIT
+Copyright: M. Wayne Davis and Henrik Bengtsson (SEGUID code); 
+  Stephen Uhler, Brent Welch and Ajuba Solutions (tcllib Base64 code);
+  and D. J. Hagberg and Don Libes (tcllib SHA1 code)
+License: MIT + BSD-like 'tcllib' license
 }]
   }
 }

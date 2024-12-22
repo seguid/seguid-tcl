@@ -12,7 +12,7 @@ source [file join $script_path tcllib/sha1.tcl]
 
 namespace eval seguid {
 
-  set version 0.0.3
+  set version 0.0.3-9000
   
   ##################
   ## Public API

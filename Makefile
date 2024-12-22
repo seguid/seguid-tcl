@@ -4,7 +4,12 @@ all: check-cli
 
 build: seguid
 
-src/tcllib/base64.tcl:
+# https://core.tcl-lang.org/tcllib/raw/c3201341e46d53d6915073ac2703f3b83eb121a609a5ed3bfc90eed8b32c59d5?at=license.terms
+
+src/tcllib/license.terms:
+	curl -L -o "$@" https://core.tcl-lang.org/tcllib/raw/c3201341e46d53d6915073ac2703f3b83eb121a609a5ed3bfc90eed8b32c59d5?at=license.terms
+
+src/tcllib/base64.tcl: src/tcllib/license.terms
 	@url=https://core.tcl-lang.org/tcllib/raw/f6bea09d4aa9768279d2b74f7ab4a114dfb7c0583beded9da44eda66e888b8f7?at=base64.tcl; \
 	tf=$$(mktemp --suffix="base64.tcl"); \
 	curl --silent "$${url}" > "$${tf}"; \
@@ -18,7 +23,7 @@ src/tcllib/base64.tcl:
 	rm "$${tf}"
 	@mv "$@.tmp" "$@"
 
-src/tcllib/sha1.tcl:
+src/tcllib/sha1.tcl: src/tcllib/license.terms
 	url=https://core.tcl-lang.org/tcllib/raw/b52facec511fa8edea4e8f0d3a71214fe137c179?at=sha1.tcl; \
 	tf=$$(mktemp --suffix="sha1.tcl"); \
 	curl --silent "$${url}" > "$${tf}"; \

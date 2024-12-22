@@ -378,7 +378,7 @@ exec tclsh "$0" "$@"
 
 namespace eval seguid {
 
-  set version 0.0.2-9006
+  set version 0.0.3
   
   ##################
   ## Public API
